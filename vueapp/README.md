@@ -30,4 +30,7 @@ ALSO WHEN USING ANY LOCAL VARIABLES, LIKE FROM COMPUTED (SHOUDLNT HAVE THOSE) OR
 
 DISCORD ME ANY QUESTIONS YOU HAVE THX
 
+### Images Used
+if you want to use more images, put them in assets, you will need a png and a svg usually, if it lets you put just the png, poggers, if it doesnt, just convert the png to a svg, and they will need the same name. this helps them auto adjust for each purpose, so if its a header, put it as 'header.png' in assets, use the local file, copy it, transform it online to svg, then put the svg in the assets as 'header.svg' as well and badabing badaboom it is good to go
+
 
