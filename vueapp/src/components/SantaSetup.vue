@@ -10,7 +10,7 @@
 import EmailModal from './EmailModal.vue';
 
 export default ({
-    prop: value,
+    props: ['value'],
     components: {
         EmailModal
     },
@@ -32,6 +32,7 @@ export default ({
         fix(object){
             //this is when email modal failed, it will return the error message to here as well so i can fix it
             //when it is fixed, will need to recall email modal to try again
+            console.log(object);
             this.generated = !this.generated;
         }
     }

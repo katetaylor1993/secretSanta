@@ -7,7 +7,7 @@
 
 <script>
 export default ({
-    props: value,
+    props: ['value'],
     methods: {
         generateError(){
             //this is where i will take in the value and display it properly

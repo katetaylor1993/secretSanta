@@ -2,8 +2,9 @@
     <v-container>
         <!-- use this piece to take in an input from the user, once the put in an input, show a good looking form that generates the number the user requests -->
         <p>{{ count }}</p>
+        <ParticipantForm/>
         <v-modal v-if="valid">
-            <SantaSetup :value="particpantData" />
+            <SantaSetup :value="participantData" />
         </v-modal>
     </v-container>
 </template>
