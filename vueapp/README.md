@@ -25,7 +25,7 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
 
 ### Condensed notes on boiler plate code ###
 * Additional setup
-  * ```vue add vuetify``` (in project folder - go with default settings)
+  * ```npm i``` (in project folder)
 * Comments are meant to lead and simplify work, but not meant to spell out every detail of work. Don't underestimate the amount of time you need.
 * To keep things organized and simple:
   * DO NOT make custom icons
