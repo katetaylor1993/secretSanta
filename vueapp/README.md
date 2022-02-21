@@ -23,6 +23,15 @@ npm run lint
 ### Customize configuration
 See [Configuration Reference](https://cli.vuejs.org/config/).
 
+### Condensed notes on boiler plate code ###
+* Additional setup
+  * ```vue add vuetify``` (in project folder - go with default settings)
+* Comments are meant to lead and simplify work, but not meant to spell out every detail of work. Don't underestimate the amount of time you need.
+* To keep things organized and simple:
+  * DO NOT make custom icons
+  * Any development notes on your work go in the README
+* A little bit about key files:
+
 ### Ash Notes
 RUN NPM I AGAIN TO GET VUETIFY OR USE VUE CLI TO GET VUETIFY IN YOUR DEV ENVIRONMENT
 IF YOUR HTML SAYS ONLY ONE ELEMENT ALLOWED, JUST USE V-CONTAINER AND SURROUND ALL OF YOUR TEMPLATE IN THAT SO -> 'TEMPLATE -> V-CONTAINER' THEN CLOSE V-CONTAINER AND THEN CLOSE YOUR TEMPLATE,
