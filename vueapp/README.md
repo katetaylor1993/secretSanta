@@ -31,6 +31,11 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
   * DO NOT make custom icons
   * Any development notes on your work go in the README
 * A little bit about key files:
+ * User introductions/instructions go in __src/components/MainForm.vue__ or in __src/views/Home.vue__
+ * __App.vue__ is for anything you want to show on ALL pages
+ * __vueapp/public/index.html__
+  * Change fonts here
+  * Links in here for rstylesheet helps with mdi icons, which can be used in other places with ```<v-icon>mdi-account</v-icon>```
 
 ### Ash Notes
 RUN NPM I AGAIN TO GET VUETIFY OR USE VUE CLI TO GET VUETIFY IN YOUR DEV ENVIRONMENT
