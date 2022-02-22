@@ -1,12 +1,7 @@
 <template>
 <v-container>
-<!--
     <p>Not sure how the email will work, but on the santaSetup it will call this template, which will take in the full object as a prop and send the emails</p>
     <button @click="sendEmail">Submit</button>
-    <div v-if="error">
-    <ErrorPopUpModal :value=returnObject />
-    </div>
--->
 </v-container>
 </template>
 
@@ -22,6 +17,7 @@ export default ({
      */
     props: ['value'],
     data() {
+        //TODO: Is this necessary?
         return {
             returnObject: {email: 'bademail@email.com'}
         }
@@ -30,38 +26,28 @@ export default ({
         sendEmail(){
             //this is where teh email will actually be sent, set a data value to get in the return value
             var templateData = { // template data
-                
+                /*
                 to_name: this.value.toName,
                 to_email: this.value.toEmail,
                 general_message: this.value.generalMsg,
                 assigned_name: this.value.assignedName,
                 assigned_details: this.value.assignedMsg
-                /*
+                */
                 to_name: "Ben Dover",
                 to_email: "katheryn.l.taylor@gmail.com",
                 general_message: "$20 maximum",
                 assigned_name: "Kate",
                 assigned_details: "I love parrots!"
-                */
+                
             };
             try {
                 emailjs.send('service_u6y98dj', 'template_h8111ee', templateData);
-
             } catch(error) {
-                console.log(error);
+                this.$emit(error, this.value.toEmail);
             }
-        },
-        checkReturn(){
-            //some sort of function to check the return on what the email extension returns, this will call on 
-            //the error pop up and pass in a prop to that as well
-            //this changes the error boolean, if error set to true, show the modal, and emit to santasetup that stuff needs to be regenerated
-            //emitting is kind of complicated, but this will call to the parent function that hey somethin went wrong and here is my object that says why
-            this.$emit('failure', this.returnObject);
         }
     },
-    mounted(){
-        this.checkReturn();
-    }
+    mounted(){}
 })
 
 </script>
