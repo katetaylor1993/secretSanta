@@ -3,7 +3,7 @@
     <v-card>
       <v-card-title>Generating Secret Santas!</v-card-title>
       <v-progress-circular v-if="randomizing" color="red" indeterminate size="64" />
-      <v-card-subtitle v-else>Success!</v-card-subtitle>
+      <v-card-subtitle v-else>Secret Santas generated.</v-card-subtitle>
     </v-card>
     <div v-if="generated">
       <EmailModal :value="emailObject" @failure="fix" />
@@ -51,13 +51,15 @@ export default {
       if (this.generated) {
         this.randomizing = false;
       }
+      this.fix();
     },
-    fix(object) {
+    fix() {
       console.log('emmiting now');
+      let object = { name: 'adfaf' };
       this.$emit('failure', object);
       //this is when email modal failed, it will return the error message to here as well so i can fix it
       //when it is fixed, will need to recall email modal to try again
-      console.log(object);
+
     },
   },
   mounted() {
