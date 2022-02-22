@@ -23,13 +23,9 @@ export default ({
      * {toName, toEmail, generalMsg, assignedName,assignedMsg}
      */
     props: ['value'],
-    components: {
-        ErrorPopUpModal
-    },
     data() {
         return {
-            error: 'this will actually be a boolean to show if there was an error or not if there is an error, use a v-if on the error pop up modal and pass in teh error as a prop',
-            returnObject: 'who knows what will be returned from sending the emails, this is the object that will be passed to the error modal'
+            returnObject: {email: 'bademail@email.com'}
         }
     },
     methods: {
@@ -64,6 +60,9 @@ export default ({
             //emitting is kind of complicated, but this will call to the parent function that hey somethin went wrong and here is my object that says why
             this.$emit('failure', this.returnObject);
         }
+    },
+    mounted(){
+        this.checkReturn();
     }
 })
 
