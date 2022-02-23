@@ -1,58 +1,51 @@
 <template>
-  <div>
-    <!-- <h1>Participant Forms</h1>
-        <p>Please enter each participant's name, email, and a short description of them below:</p> -->
+  <v-container>
     <v-form ref="form" v-model="valid">
-      <v-text-field
-        v-model="formData.name"
-        :rules="[rules.checknameSize]"
-        label="Name"
-        counter
-        maxlength="256"
-      ></v-text-field>
-      <v-text-field
-        v-model="formData.email"
-        :rules="[rules.checkEmail]"
-        label="Email"
-      ></v-text-field>
-      <v-text-field
-        v-model="formData.about"
-        :rules="[rules.checkAbout]"
-        label="About"
-        counter
-        maxlength="3000"
-      ></v-text-field>
+      <v-card light>
+        <v-row>
+          <v-col>
+            <v-card-title style="color: black"
+              >Participant #{{ index }}:</v-card-title
+            >
+          </v-col>
+        </v-row>
+        <v-card-text>
+          <v-row>
+            <v-col>
+              <v-text-field
+                v-model="formData.name"
+                :rules="[rules.checknameSize]"
+                label="Name"
+                counter
+                maxlength="256"
+              ></v-text-field> </v-col
+            ><v-col>
+              <v-text-field
+                v-model="formData.email"
+                :rules="[rules.checkEmail]"
+                label="Email"
+              ></v-text-field> </v-col
+            ><v-col>
+              <v-text-field
+                v-model="formData.about"
+                :rules="[rules.checkAbout]"
+                label="About"
+                counter
+                maxlength="3000"
+              ></v-text-field
+            ></v-col>
+          </v-row>
+        </v-card-text>
+      </v-card>
     </v-form>
-  </div>
+  </v-container>
 </template>
 
 <script>
-export default {
-  // props: {
-  //   form: Object
-  // },
-  watch: {
-    formData: {
-      deep: true,
-      immediate: true,
-      handler: function (val) {
-        //  this.$emit("input", val)
-        var participant = new Object();
-        if ((this.$refs.form as Vue & { validate: () => boolean }).validate()) {
-          participant = { ...val };
-          this.$emit("add", participant);
-        } 
-        else {
-          console.log("one is blank");
-        }
-      },
-    },
-  },
-  computed: {
-  form(): Vue & { validate: () => boolean } {
-    return this.$refs.form as Vue & { validate: () => boolean }
-  }
-},
+import Vue from "vue";
+
+export default Vue.extend({
+  props: { index: Number },
   data() {
     return {
       valid: false,
@@ -67,21 +60,34 @@ export default {
           "Name too long or too short", //Works
         checkEmail: (value) => /.+@.+/.test(value) || "Invalid Email", //Works
         checkAbout: (value) =>
-          value.length <= 3000 || "Too many words sum it up", //Works
+          value.length <= 3000 || "Too many words, sum it up", //Works
         //Gonna need 3 input rules
       },
     };
   },
-
-  // methods: {
-  //   validate() {
-  //     this.$refs.form.validate();
-  //   }
-  // }
-
-};
+  computed: {
+    arrIndex() {
+      return this.index - 1;
+    },
+  },
+  watch: {
+    formData: {
+      deep: true,
+      handler: function (val) {
+        var participant = new Object();
+        if (this.$refs.form.validate()) {
+          participant = { index: this.arrIndex, ...val };
+          this.$emit("add", participant);
+        }
+      },
+    },
+  },
+});
 </script>
 
-<style>
-
+<style scope>
+.theme--light.v-card > .v-card__text {
+  padding-top: 1px;
+  margin-top: 1px;
+}
 </style>
