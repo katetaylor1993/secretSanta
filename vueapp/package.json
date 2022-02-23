@@ -12,7 +12,6 @@
     "core-js": "^3.6.5",
     "emailjs-com": "^3.2.0",
     "vue": "^2.6.11",
-    "vue-numeric-input": "^2.0.0",
     "vuetify": "^2.4.0"
   },
   "devDependencies": {

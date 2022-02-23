@@ -1,9 +1,7 @@
 import Vue from 'vue'
 import App from './App.vue'
 import vuetify from './plugins/vuetify'
-import VueNumericInput from 'vue-numeric-input';
 
-Vue.use(VueNumericInput)
 Vue.config.productionTip = false
 
 new Vue({

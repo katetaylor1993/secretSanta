@@ -1,29 +1,40 @@
 <template>
   <v-container>
     <!-- use this piece to take in an input from the user, once the put in an input, show a good looking form that generates the number the user requests -->
-    <v-card-title>Number of Participants:      
-        <input type="number"
-        min=3
-        max=50
+    <v-card-title
+      >Number of Participants:
+      <input
+        type="number"
+        min="3"
+        max="50"
         v-model="count"
-        @input="validateCount">
-            
-        <v-btn color="primary" :disabled="disableBtn" v-on:click="submit">Submit</v-btn>
+        @input="validateCount"
+      />
+
+      <v-btn color="primary" :disabled="disableBtn" v-on:click="submit"
+        >Submit</v-btn
+      >
     </v-card-title>
 
-    <v-card-title>Participant Forms</v-card-title>
-    <v-card-subtitle>
-      Please enter each participant's name, email, and a short description of
-      them below:
-    </v-card-subtitle>
+    <v-card v-if="displayForms">
+      <v-card-title>Participant Forms</v-card-title>
+      <v-card-subtitle>
+        Please enter each participant's name, email, and a short description of
+        them below:
+      </v-card-subtitle>
 
-    <ul>
+      <ul>
         <li v-for="index in parseInt(count)" :key="index">
-            Participant #{{index}} <ParticipantForm/>
+          Participant #{{ index }} <ParticipantForm @add="getForm"/>
         </li>
-    </ul>
-    
-    
+      </ul>
+      <v-card-actions>
+        <v-row justify="center">
+          <v-btn color="primary" v-on:click="generate">Generate</v-btn>
+        </v-row>
+      </v-card-actions>
+    </v-card>
+
     <div v-if="valid">
       <SantaSetup @failure="error" :value="participantData" />
     </div>
@@ -46,11 +57,12 @@ export default {
       //to create the full form, use vuetify!
       count: 3,
       inputRules: {}, // I just ended up using a method validateNumber and greyed out the button? hope thats otay
-      valid: true, //this will be an object bound to the table/form created to pass in to the santaSetup, they shoudl be validated from the participant form
+      valid: false, //this will be an object bound to the table/form created to pass in to the santaSetup, they shoudl be validated from the participant form
       //this will be filled dynamically
-      participantData: [{ name: "", email: "", about: "" }],
+      participantData: [],
       problem: false,
-      disableBtn: false
+      disableBtn: false,
+      displayForms: false,
     };
   },
   components: {
@@ -64,7 +76,8 @@ export default {
       //this will pass the data placed into the participant data object into the santaSetup
       //modal, pass it as a prop, you won't need to show the modal, unless you decide to, but the modal
       //itself will be a "Generating..." while the algorithm happens behinds the scenes
-      console.log("oh yea you like that")
+      console.log("here submitting");
+      this.displayForms = true;
     },
     add() {
       //another method you could use to add each form to your participant data object by pushing it, you are pushing an object to an array
@@ -73,15 +86,22 @@ export default {
       console.log("in error");
       this.problem = true;
     },
-
-    validateCount () {
-        if(this.count > 50 || this.count < 3) {
-            this.disableBtn = true
-        }
-        else{
-            this.disableBtn = false
-        }
-    }
+    validateCount() {
+      if (this.count > 50 || this.count < 3) {
+        this.disableBtn = true;
+        this.displayForms = false;
+      } else {
+        this.disableBtn = false;
+      }
+    },
+    getForm(val) {
+      this.participantData.push(val)
+      console.log(this.participantData)
+    },
+    generate() {
+      this.valid = true;
+      console.log("generating");
+    },
   },
 };
 </script>
@@ -96,7 +116,7 @@ input {
   text-align: center;
 }
 
-input[type=number]::-webkit-inner-spin-button {
-    opacity: 1
+input[type="number"]::-webkit-inner-spin-button {
+  opacity: 1;
 }
 </style>
