@@ -17,19 +17,20 @@ export default ({
         sendEmail(){
             //this is where teh email will actually be sent, set a data value to get in the return value
             var templateData = { // template data
-                
+
                 to_name: this.value.toName,
                 to_email: this.value.toEmail,
                 general_message: this.value.generalMsg,
                 assigned_name: this.value.assignedName,
                 assigned_details: this.value.assignedMsg
-                /*
-                to_name: "Ben Dover",
-                to_email: "katheryn.l.taylor@gmail.com",
-                general_message: "$20 maximum",
-                assigned_name: "Kate",
-                assigned_details: "I love parrots!"
-                */
+
+
+                // to_name: "Ben Dover",
+                // to_email: "katheryn.l.taylor@gmail.com",
+                // general_message: "$20 maximum",
+                // assigned_name: "Kate",
+                // assigned_details: "I love parrots!"
+                
             };
             try {
                 emailjs.send('service_u6y98dj', 'template_h8111ee', templateData);

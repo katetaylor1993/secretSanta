@@ -46,7 +46,7 @@ export default {
       let emailList = this.dummyData.map(a => a.email);
       console.log(emailList);
       setTimeout(() => {
-        this.randomizing = !this.randomizing; this.generated = !this.generated;
+        this.randomizing = !this.randomizing; 
       }, 3000);
       if (this.generated) {
         this.randomizing = false;

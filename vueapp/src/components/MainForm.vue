@@ -1,18 +1,40 @@
 <template>
   <v-container>
-    <!-- use this piece to take in an input from the user, once the put in an input, show a good looking form that generates the number the user requests -->
-    <v-card-title>Participant Forms</v-card-title>
-    <v-card-subtitle>
-      Please enter each participant's name, email, and a short description of
-      them below:
-    </v-card-subtitle>
-    <ParticipantForm />
-    <div v-if="valid">
-      <SantaSetup @failure="error" :value="participantData" />
-    </div>
-    <div v-if="problem">
-      <ErrorPopUpModal />
-    </div>
+    <v-card light>
+      <v-row justify="center">
+        <v-card-title
+          >Number of Participants:
+          <input type="number" v-model="total" @input="validateTotal" />
+          <v-btn color="red" :disabled="!enableBtn" @click="submit"
+            >Submit</v-btn
+          >
+        </v-card-title>
+      </v-row>
+      <v-card dark v-if="displayForms">
+        <v-col>
+          <v-card-title style="font-size: 1.5rem; font-weight: 550"
+            >Participant Forms:</v-card-title
+          >
+          <v-card-subtitle style="font-size: 1rem">
+            Please enter each participant's name, email, and a short description
+            of them below.
+          </v-card-subtitle>
+          <v-card-text v-for="index in parseInt(total)" :key="index">
+            <ParticipantForm :index="index" @add="add" />
+          </v-card-text>
+          <v-row justify="center">
+            <v-btn color="green" @click="generate">Generate</v-btn>
+          </v-row>
+        </v-col>
+      </v-card>
+
+      <div v-if="valid">
+        <SantaSetup @failure="error" :value="participantData" />
+      </div>
+      <div v-if="problem">
+        <ErrorPopUpModal />
+      </div>
+    </v-card>
   </v-container>
 </template>
 
@@ -24,16 +46,14 @@ import ErrorPopUpModal from "./PopUpModal.vue";
 export default {
   data() {
     return {
-      //you will need to set this up, it should take in an input in html from the user
-      //to get the total count, you will use this count to generate the form with a v-data-table or some sort of thing
-      //to create the full form, use vuetify!
-      count: 0,
-      inputRule:
-        "change this to where the input gets validated, it must be between 3 and 50! look into this on vue",
-      valid: true, //this will be an object bound to the table/form created to pass in to the santaSetup, they shoudl be validated from the participant form
+      total: 0,
+      valid: false, //this will be an object bound to the table/form created to pass in to the santaSetup, they shoudl be validated from the participant form
       //this will be filled dynamically
-      participantData: [{ name: "", email: "", about: "" }],
+      participantData: [],
       problem: false,
+      enableBtn: false,
+      displayForms: false,
+      counter: 0,
     };
   },
   components: {
@@ -43,17 +63,61 @@ export default {
   },
   methods: {
     submit() {
-      //this can be wehre you validate on submission or on form button click to generate full form,
-      //this will pass the data placed into the participant data object into the santaSetup modal, pass it as a prop, you won't need to show the modal, unless you decide to, but the modal
-      //itself will be a "Generating..." while the algorithm happens behinds the scenes
+      this.displayForms = true;
     },
-    add() {
-      //another method you could use to add each form to your participant data object by pushing it, you are pushing an object to an array
+    add(val) {
+      if (val.index !== this.counter) {
+        this.counter++;
+      }
+      if (this.participantData[this.counter] === null) {
+        this.participantData.push(val);
+      } else {
+        this.participantData[this.counter] = { ...val };
+      }
     },
     error() {
       console.log("in error");
       this.problem = true;
     },
+    validateTotal() {
+      if (this.total > 50 || this.total < 3) {
+        this.enableBtn = false;
+        this.displayForms = false;
+      } else {
+        this.enableBtn = true;
+      }
+    },
+    generate() {
+      //call santa setup
+      if (this.participantData.length !== 0) {
+        this.valid = true;
+      } else {
+        console.log("empty data");
+      }
+    },
   },
 };
 </script>
+
+<style scoped>
+input {
+  border: 1px solid grey;
+  border-radius: 5px;
+  height: 25px;
+  margin-left: 10px;
+  margin-right: 20px;
+  text-align: center;
+}
+
+input[type="number"]::-webkit-inner-spin-button {
+  opacity: 1;
+}
+.v-card__subtitle,
+.v-card__text,
+.v-card__title {
+  padding: 15px;
+}
+.v-btn {
+  margin: 15px;
+}
+</style>
