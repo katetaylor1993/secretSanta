@@ -41,7 +41,7 @@
 <script>
 import ParticipantForm from "./ParticipantForm.vue";
 import SantaSetup from "./SantaSetUpModal.vue";
-import ErrorPopUpModal from "./ErrorPopUpModal.vue";
+import ErrorPopUpModal from "./PopUpModal.vue";
 
 export default {
   data() {
