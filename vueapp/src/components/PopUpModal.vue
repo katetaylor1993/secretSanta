@@ -7,10 +7,12 @@
       max-width="600"
     >
       <v-card>
-        <v-toolbar color="red" dark>Error sending to: {{ problem }}</v-toolbar>
-        <v-card-title>
+        <v-toolbar color="red" dark>{{ value.header }}</v-toolbar>
+        <v-card-title> {{ value.message }}</v-card-title>
+        <v-spacer></v-spacer>
+        <v-card-subtitle>
           Press the button to return to initial form.
-        </v-card-title>
+        </v-card-subtitle>
         <v-card-actions class="justify-end">
           <v-btn dark @click="hidePopUp">Return</v-btn>
         </v-card-actions>
@@ -23,15 +25,12 @@
 export default {
   props: ["value"],
   data: () => ({
-    problem: "random@email.com",
     showDialog: true,
   }),
   methods: {
-    generateError() {
-      //this is where i will take in the value and display it properly
-    },
     hidePopUp() {
       this.showDialog = false;
+      this.$emit('closed');
     },
   },
 };

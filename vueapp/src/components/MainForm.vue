@@ -29,10 +29,10 @@
       </v-card>
 
       <div v-if="valid">
-        <SantaSetup @failure="error" :value="participantData" />
+        <SantaSetup @completion="showResults" :value="participantData" />
       </div>
-      <div v-if="problem">
-        <ErrorPopUpModal />
+      <div v-if="popUp">
+        <PopUpModal :value="modalMsg" @closed="popUp = false" />
       </div>
     </v-card>
   </v-container>
@@ -41,7 +41,7 @@
 <script>
 import ParticipantForm from "./ParticipantForm.vue";
 import SantaSetup from "./SantaSetUpModal.vue";
-import ErrorPopUpModal from "./PopUpModal.vue";
+import PopUpModal from "./PopUpModal.vue";
 
 export default {
   data() {
@@ -50,16 +50,18 @@ export default {
       valid: false, //this will be an object bound to the table/form created to pass in to the santaSetup, they shoudl be validated from the participant form
       //this will be filled dynamically
       participantData: [],
-      problem: false,
+      popUp: false,
       enableBtn: false,
       displayForms: false,
       counter: 0,
+      modalMsg: { header: "", message: "" },
+      error: false,
     };
   },
   components: {
     ParticipantForm,
     SantaSetup,
-    ErrorPopUpModal,
+    PopUpModal,
   },
   methods: {
     submit() {
@@ -75,10 +77,6 @@ export default {
         this.participantData[this.counter] = { ...val };
       }
     },
-    error() {
-      console.log("in error");
-      this.problem = true;
-    },
     validateTotal() {
       if (this.total > 50 || this.total < 3) {
         this.enableBtn = false;
@@ -88,12 +86,47 @@ export default {
       }
     },
     generate() {
-      //call santa setup
-      if (this.participantData.length !== 0) {
-        this.valid = true;
+      //call santa setup if all slots are filled
+      let nameArr = this.participantData.map(function (item) {
+        return item.name;
+      });
+      let nameDup = nameArr.some(function (item, idx) {
+        return nameArr.indexOf(item) != idx;
+      });
+      let emailArr = this.participantData.map(function (item) {
+        return item.email;
+      });
+      let emailDup = emailArr.some(function (item, idx) {
+        return emailArr.indexOf(item) != idx;
+      });
+
+      if (this.total != this.participantData.length) {
+        this.modalMsg = {
+          header: "Error!",
+          message: "Not all forms are filled.",
+        };
+        this.popUp = true;
+      } else if (nameDup === true) {
+        this.modalMsg = {
+          header: "Error!",
+          message: "There is a duplicate name, fix this and try again.",
+        };
+        this.counter = 0;
+        this.popUp = true;
+      } else if (emailDup === true) {
+        this.modalMsg = {
+          header: "Error!",
+          message: "Ther is a duplicate email, fix this and try again.",
+        };
+        this.counter = 0;
+        this.popUp = true;
       } else {
-        console.log("empty data");
+        this.valid = true;
       }
+    },
+    showResults(val) {
+      this.modalMsg = { header: "Santa Results:", message: val };
+      this.popUp = true;
     },
   },
 };
