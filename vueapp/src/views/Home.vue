@@ -1,6 +1,9 @@
 <template>
+  <v-container>
   <!-- Put whatever header you want up here! Any intro, any messages you want to show to introduce the user to the application -->
-  <MainForm />
+  <v-btn @click="showForm" />
+  <MainForm v-if="agreed" />
+  </v-container>
 </template>
 
 <script>
@@ -10,5 +13,13 @@ export default {
   components: {
     MainForm,
   },
+  data:() => ({
+    agreed: false
+  }),
+  methods: {
+    showForm(){
+      this.agreed = true;
+    }
+  }
 };
 </script>
