@@ -31,12 +31,14 @@ export default {
       randomizing: true,
       timerCount: 10,
       emailObj: {
-        to_name: '',
-        to_email: '',
-        general_message: '',
-        assigned_name: '',
-        assigned_details: ''
+        to_name: "",
+        to_email: "",
+        general_message: "",
+        assigned_name: "",
+        assigned_details: "",
       },
+      sortedArray: [],
+      assignedArray: [],
     };
   },
   methods: {
@@ -44,22 +46,58 @@ export default {
       //i will mess around with this and make it work
       //will make email object either loop hrough each email modal in a v-for for each in the data object
       //do a full objec twith everytwo and from, going through one will be easier to debug probably
+      for (var x in this.value) {
+        this.sortedArray.push(this.value[x]);
+      }
       setTimeout(() => {
         this.randomizing = !this.randomizing;
       }, 3000);
-      if (this.generated) {
-        this.randomizing = false;
-      }
-      this.fix();
+      this.randomizeAlgorithm();
+      console.log(this.sortedArray);
+      this.assign();
     },
-    fix() {
-      console.log("emmiting now");
-      //this is when email modal failed, it will return the error message to here as well so i can fix it
-      //when it is fixed, will need to recall email modal to try again
+    randomizeAlgorithm() {
+      for (var i = this.sortedArray.length - 1; i > 0; i--) {
+        var j = Math.floor(Math.random() * (i + 1));
+        var temp = this.sortedArray[i];
+        this.sortedArray[i] = this.sortedArray[j];
+        this.sortedArray[j] = temp;
+      }
+    },
+    assign() {
+      let len = this.sortedArray.length;
+      for (var i = len; i > 0; i--) {
+        let tempObj = { ...this.emailObj };
+        if (i == 0) {
+          tempObj.to_name = this.sortedArray[0].name;
+          tempObj.to_email = this.sortedArray[0].email;
+          tempObj.general_message = this.general_message;
+          tempObj.assigned_name = this.sortedArray[len].name;
+          tempObj.assigned_details = this.sortedArray[len].about;
+
+          this.assignedArray.push(tempObj);
+        }
+        tempObj.to_name = this.sortedArray[i].name;
+        tempObj.to_email = this.sortedArray[i].email;
+        tempObj.general_message = this.general_message;
+        tempObj.assigned_name = this.sortedArray[i - 1].name;
+        tempObj.assigned_details = this.sortedArray[i - 1].about;
+
+        this.assignedArray.push(tempObj);
+      }
+
+      console.log(this.assignedArray);
+
+      //       emailObj: {
+      //   to_name: "",
+      //   to_email: "",
+      //   general_message: "",
+      //   assigned_name: "",
+      //   assigned_details: "",
+      // },
     },
   },
   mounted() {
-    console.log(this.value);
     this.randomize();
   },
 };
