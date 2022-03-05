@@ -19,12 +19,11 @@ export default {
       try {
         emailjs.send("service_u6y98dj", "template_h8111ee", this.value);
       } catch (error) {
-        console.log(error, this.value.toEmail);
+        console.log(error);
       }
     },
   },
   mounted() {
-    console.log("hi im in mounted");
     this.sendEmail();
   },
 };
