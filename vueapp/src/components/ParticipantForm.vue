@@ -58,26 +58,21 @@ export default Vue.extend({
         checknameSize: (value) =>
           (value.length <= 256 && value.length > 0) ||
           "Name too long or too short", //Works
-        checkEmail: (value) => /.+@.+/.test(value) || "Invalid Email", //Works
+        checkEmail: (value) =>
+          /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value) || "Invalid Email", //Works
         checkAbout: (value) =>
           value.length <= 3000 || "Too many words, sum it up", //Works
         //Gonna need 3 input rules
       },
     };
   },
-  computed: {
-    arrIndex() {
-      return this.index - 1;
-    },
-  },
   watch: {
     formData: {
       deep: true,
       handler: function (val) {
-        var participant = new Object();
         if (this.$refs.form.validate()) {
-          participant = { index: this.arrIndex, ...val };
-          this.$emit("add", participant);
+          this.formData = { index: this.index, ...val };
+          this.$emit("add", this.formData);
         }
       },
     },

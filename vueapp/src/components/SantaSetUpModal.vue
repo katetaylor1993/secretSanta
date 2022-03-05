@@ -11,7 +11,9 @@
       <v-card-subtitle v-else>Secret Santas generated.</v-card-subtitle>
     </v-card>
     <div v-if="generated">
-      <EmailModal :value="emailObject" />
+      <div v-for="(email, index) in assignedArray" :key="index">
+        <EmailModal :value="email" />
+      </div>
     </div>
   </v-container>
 </template>
@@ -19,7 +21,7 @@
 import EmailModal from "./EmailModal.vue";
 
 export default {
-  props: ["value"],
+  props: ["value", "message"],
   components: {
     EmailModal,
   },
@@ -65,36 +67,29 @@ export default {
       }
     },
     assign() {
-      let len = this.sortedArray.length;
-      for (var i = len; i > 0; i--) {
+      let len = this.sortedArray.length - 1;
+      for (var i in this.sortedArray) {
         let tempObj = { ...this.emailObj };
+        console.log(this.sortedArray[i]);
         if (i == 0) {
           tempObj.to_name = this.sortedArray[0].name;
           tempObj.to_email = this.sortedArray[0].email;
-          tempObj.general_message = this.general_message;
+          tempObj.general_message = this.message;
           tempObj.assigned_name = this.sortedArray[len].name;
           tempObj.assigned_details = this.sortedArray[len].about;
-
-          this.assignedArray.push(tempObj);
+        } else {
+          tempObj.to_name = this.sortedArray[i].name;
+          tempObj.to_email = this.sortedArray[i].email;
+          tempObj.general_message = this.general_message;
+          tempObj.assigned_name = this.sortedArray[i - 1].name;
+          tempObj.assigned_details = this.sortedArray[i - 1].about;
         }
-        tempObj.to_name = this.sortedArray[i].name;
-        tempObj.to_email = this.sortedArray[i].email;
-        tempObj.general_message = this.general_message;
-        tempObj.assigned_name = this.sortedArray[i - 1].name;
-        tempObj.assigned_details = this.sortedArray[i - 1].about;
 
         this.assignedArray.push(tempObj);
       }
 
       console.log(this.assignedArray);
-
-      //       emailObj: {
-      //   to_name: "",
-      //   to_email: "",
-      //   general_message: "",
-      //   assigned_name: "",
-      //   assigned_details: "",
-      // },
+      this.generated = true;
     },
   },
   mounted() {
