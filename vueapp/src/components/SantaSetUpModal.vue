@@ -55,7 +55,6 @@ export default {
         this.randomizing = !this.randomizing;
       }, 3000);
       this.randomizeAlgorithm();
-      console.log(this.sortedArray);
       this.assign();
     },
     randomizeAlgorithm() {
@@ -70,7 +69,7 @@ export default {
       let len = this.sortedArray.length - 1;
       for (var i in this.sortedArray) {
         let tempObj = { ...this.emailObj };
-        console.log(this.sortedArray[i]);
+
         if (i == 0) {
           tempObj.to_name = this.sortedArray[0].name;
           tempObj.to_email = this.sortedArray[0].email;
@@ -87,8 +86,6 @@ export default {
 
         this.assignedArray.push(tempObj);
       }
-
-      console.log(this.assignedArray);
       this.generated = true;
     },
   },

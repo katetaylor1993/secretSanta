@@ -5,6 +5,8 @@
         <v-card-title
           >Number of Participants:
           <input type="number" v-model="total" @input="validateTotal" />
+          Enter an optional rule:
+          <input v-model="message" @input="validateTotal" />
           <v-btn color="red" :disabled="!enableBtn" @click="submit"
             >Submit</v-btn
           >
@@ -29,7 +31,7 @@
       </v-card>
 
       <div v-if="valid">
-        <SantaSetup @completion="showResults" :value="participantData" />
+        <SantaSetup :value="participantData" />
       </div>
       <div v-if="popUp">
         <PopUpModal :value="modalMsg" @closed="popUp = false" />
@@ -53,9 +55,10 @@ export default {
       popUp: false,
       enableBtn: false,
       displayForms: false,
-      counter: 0,
+
       modalMsg: { header: "", message: "" },
       error: false,
+      message: "",
     };
   },
   components: {
@@ -68,13 +71,10 @@ export default {
       this.displayForms = true;
     },
     add(val) {
-      if (val.index !== this.counter) {
-        this.counter++;
-      }
-      if (this.participantData[this.counter] === null) {
+      if (this.participantData[val.index] === null) {
         this.participantData.push(val);
       } else {
-        this.participantData[this.counter] = { ...val };
+        this.participantData[val.index] = { ...val };
       }
     },
     validateTotal() {
@@ -87,6 +87,12 @@ export default {
     },
     generate() {
       //call santa setup if all slots are filled
+
+      if (this.participantData.length === 0) {
+        return;
+      }
+      this.participantData = this.participantData.filter((a) => a !== " ");
+
       let nameArr = this.participantData.map(function (item) {
         return item.name;
       });
@@ -100,10 +106,10 @@ export default {
         return emailArr.indexOf(item) != idx;
       });
 
-      if (this.total != this.participantData.length) {
+      if (parseInt(this.total) !== this.participantData.length) {
         this.modalMsg = {
           header: "Error!",
-          message: "Not all forms are filled.",
+          message: "Not all forms are filled or valid, fix this and try again.",
         };
         this.popUp = true;
       } else if (nameDup === true) {
@@ -111,22 +117,18 @@ export default {
           header: "Error!",
           message: "There is a duplicate name, fix this and try again.",
         };
-        this.counter = 0;
+
         this.popUp = true;
       } else if (emailDup === true) {
         this.modalMsg = {
           header: "Error!",
-          message: "Ther is a duplicate email, fix this and try again.",
+          message: "There is a duplicate email, fix this and try again.",
         };
-        this.counter = 0;
+
         this.popUp = true;
       } else {
         this.valid = true;
       }
-    },
-    showResults(val) {
-      this.modalMsg = { header: "Santa Results:", message: val };
-      this.popUp = true;
     },
   },
 };

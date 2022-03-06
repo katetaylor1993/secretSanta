@@ -70,9 +70,10 @@ export default Vue.extend({
     formData: {
       deep: true,
       handler: function (val) {
+        let tempObj = {};
         if (this.$refs.form.validate()) {
-          this.formData = { index: this.index, ...val };
-          this.$emit("add", this.formData);
+          tempObj = { index: this.index - 1, ...val };
+          this.$emit("add", tempObj);
         }
       },
     },
