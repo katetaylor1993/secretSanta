@@ -1,18 +1,19 @@
 <template>
   <v-container>
-    <v-card light>
+    <v-card style="background-color: #ddffd1; border-color: #015a2c; border-style: solid; border-width: 3px;"
+    light>
       <v-row justify="center">
         <v-card-title
           >Number of Participants:
           <input type="number" v-model="total" @input="validateTotal" />
-          Enter an optional rule:
+          Enter a general message:
           <input v-model="message" @input="validateTotal" />
-          <v-btn color="red" :disabled="!enableBtn" @click="submit"
+          <v-btn color="#B71C1C" style="color: white" :disabled="!enableBtn" @click="submit"
             >Submit</v-btn
           >
         </v-card-title>
       </v-row>
-      <v-card dark v-if="displayForms">
+      <v-card style="background-color: #E57373" v-if="displayForms">
         <v-col>
           <v-card-title style="font-size: 1.5rem; font-weight: 550"
             >Participant Forms:</v-card-title
@@ -25,13 +26,13 @@
             <ParticipantForm :index="index" @add="add" />
           </v-card-text>
           <v-row justify="center">
-            <v-btn color="green" @click="generate">Generate</v-btn>
+            <v-btn color="#015a2c" style="color: white" @click="generate">Generate</v-btn>
           </v-row>
         </v-col>
       </v-card>
 
       <div v-if="valid">
-        <SantaSetup :value="participantData" />
+        <SantaSetup :value="participantData" :message="message" />
       </div>
       <div v-if="popUp">
         <PopUpModal :value="modalMsg" @closed="popUp = false" />

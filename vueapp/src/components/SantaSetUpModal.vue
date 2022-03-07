@@ -69,7 +69,6 @@ export default {
       let len = this.sortedArray.length - 1;
       for (var i in this.sortedArray) {
         let tempObj = { ...this.emailObj };
-
         if (i == 0) {
           tempObj.to_name = this.sortedArray[0].name;
           tempObj.to_email = this.sortedArray[0].email;
@@ -79,7 +78,7 @@ export default {
         } else {
           tempObj.to_name = this.sortedArray[i].name;
           tempObj.to_email = this.sortedArray[i].email;
-          tempObj.general_message = this.general_message;
+          tempObj.general_message = this.message;
           tempObj.assigned_name = this.sortedArray[i - 1].name;
           tempObj.assigned_details = this.sortedArray[i - 1].about;
         }
